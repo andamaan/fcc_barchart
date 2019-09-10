@@ -1,13 +1,42 @@
+*{
+    font-family: 'Courier New', Courier, monospace;
+    font-size: 12px;
+
+}
+
 body {
     margin: 0px;
     padding: 0px;
-    background: #eee;
+    background: #131212;
 }
 
-svg{
-    background: lightblue;
+#title {
+    fill: white;
+    font-size: 2rem;
 }
 
+#x-axis path, #y-axis path, #x-axis line, #y-axis line{
+    stroke : white;
+}
+
+#x-axis text, #y-axis text{
+    fill: white;
+    
+}
+
+rect {
+    fill: #307283;
+}
 rect:hover{
-    fill: orange;
+    fill: white;
+}
+
+.axis-label{
+    fill: white;
+    font-size: 24px;
+}
+
+#source {
+    color: white;
+    margin: 25px 0 0 75px;
 }

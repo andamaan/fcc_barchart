@@ -7,12 +7,12 @@ const height = +svg.attr('height')
 
 const render = dataArr => {
 
-    const title= "Gross Domestic Product"
+    const title= "Gross Domestic Product (USA)"
     const xValue = d => d[0]
     const xAxisLabel = 'Year'
     const yValue = d => d[1]
     const yAxisLabel = 'Value'
-    const margin = {top: 100, right:20, bottom: 50, left: 100}
+    const margin = {top: 100, right:20, bottom: 75, left: 100}
     const innerWidth = width - margin.left - margin.right
     const innerHeight = height - margin.top - margin.bottom
 
@@ -32,7 +32,6 @@ const render = dataArr => {
     const xAxis = axisBottom(xScale)
         .ticks(10)
         .tickPadding(10)
-        .tickSize(-innerHeight)
 
     const xAxisG = g.append('g').call(xAxis)
         .attr('id', 'x-axis')
@@ -40,9 +39,8 @@ const render = dataArr => {
 
         xAxisG.append('text')
             .attr('class', 'axis-label')
-            .attr('y', 45)
+            .attr('y', 60)
             .attr('x', innerWidth/2)
-            .attr('fill', 'black')
             .text(xAxisLabel)
 
     const yAxisTickFormat = number =>
@@ -68,7 +66,6 @@ const render = dataArr => {
         .attr('x',  - innerHeight/2)
         .attr('transform', 'rotate(-90)')
         .attr('text-anchor', 'middle')
-        .attr('fill', 'black')
         .text(yAxisLabel)
 
 
@@ -85,14 +82,12 @@ const render = dataArr => {
         .attr('data-gdp', yValue)
         .append('title')
             .attr('id', 'tooltip')
-            .text(d => 'Date : ' + xValue(d).toString().substring(0,15) + ' Value : '+ yValue(d) + ' dollars')
-                
-        //const dateFormat= time.format("%Y-%m-%d")
+            .html(d => 'Date : ' + xValue(d).toString().substring(0,15) + '<br/>' +' Value : '+ yValue(d) + '$')
 
-    console.log(dataArr)
+
     svg.append('text')
                 .attr('id', 'title')
-                .attr('x', innerWidth /2)
+                .attr('x', innerWidth /2 - 150)
                 .attr('y', 75)
                 .text(title);
 }

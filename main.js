@@ -1,6 +1,4 @@
-import * as d3 from 'd3'
-
-//import { select, json, scaleLinear, scaleTime, axisLeft, axisBottom, format, extent, max, time } from 'd3'
+import { select, json, scaleLinear, scaleTime, axisLeft, axisBottom, format, extent, max, time } from 'd3'
 
 const svg = select('svg')
 

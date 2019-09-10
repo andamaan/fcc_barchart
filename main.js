@@ -1,4 +1,4 @@
-import { select, json, scaleLinear, scaleTime, axisLeft, axisBottom, format, extent, max, time } from 'd3'
+import { select, json, scaleLinear, scaleTime, axisLeft, axisBottom, format, extent, max, timeFormat } from 'd3'
 
 const svg = select('svg')
 
@@ -6,7 +6,6 @@ const width = +svg.attr('width')
 const height = +svg.attr('height')
 
 const render = dataArr => {
-
     const title= "Gross Domestic Product (USA)"
     const xValue = d => d[0]
     const xAxisLabel = 'Year'
@@ -82,7 +81,8 @@ const render = dataArr => {
         .attr('data-gdp', yValue)
         .append('title')
             .attr('id', 'tooltip')
-            .html(d => 'Date : ' + xValue(d).toString().substring(0,15) + '<br/>' +' Value : '+ yValue(d) + '$')
+           // .html(d => 'Date : ' + xValue(d).toString().substring(0,15) + '<br/>' +' Value : '+ yValue(d) + '$')
+            .html(d => 'Date : ' + timeFormat("%Y-%m")(xValue(d)) + '<br/>' +' Value : '+ yValue(d) + '$')
 
 
     svg.append('text')
@@ -97,6 +97,7 @@ json('https://raw.githubusercontent.com/freeCodeCamp/ProjectReferenceData/master
       const dataArr = data.data
         dataArr.forEach((d) => {
             d[0] = new Date(d[0]);
+
             d[1] = +d[1];  
     });
     render(dataArr);

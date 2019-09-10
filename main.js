@@ -10,7 +10,7 @@ const render = dataArr => {
     const xValue = d => d[0]
     const xAxisLabel = 'Year'
     const yValue = d => d[1]
-    const yAxisLabel = 'Value'
+    const yAxisLabel = 'Value (in billions)'
     const margin = {top: 100, right:20, bottom: 75, left: 100}
     const innerWidth = width - margin.left - margin.right
     const innerHeight = height - margin.top - margin.bottom
@@ -82,7 +82,7 @@ const render = dataArr => {
         .append('title')
             .attr('id', 'tooltip')
            // .html(d => 'Date : ' + xValue(d).toString().substring(0,15) + '<br/>' +' Value : '+ yValue(d) + '$')
-            .html(d => 'Date : ' + timeFormat("%Y-%m")(xValue(d)) + '<br/>' +' Value : '+ yValue(d) + '$')
+            .html(d => 'Date : ' + timeFormat("%Y-%m")(xValue(d)) + '<br/>' +' Value : '+ yValue(d) + ' billions of dollars')
 
 
     svg.append('text')

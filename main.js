@@ -1,4 +1,4 @@
-import { select, json, scaleLinear, scaleTime, axisLeft, axisBottom, format, extent, max, min } from 'd3'
+import { select, json, scaleLinear, scaleTime, axisLeft, axisBottom, format, extent, max, time } from 'd3'
 
 const svg = select('svg')
 
@@ -7,8 +7,7 @@ const height = +svg.attr('height')
 
 const render = dataArr => {
 
-    const title= "World Population"
-
+    const title= "Gross Domestic Product"
     const xValue = d => d[0]
     const xAxisLabel = 'Year'
     const yValue = d => d[1]
@@ -23,7 +22,7 @@ const render = dataArr => {
     
     const yScale = scaleLinear()
         .domain([0, max(dataArr,yValue)])
-        .range([0, innerHeight  ])
+        .range([0,innerHeight])
        
 
     const g = svg.append('g')
@@ -36,6 +35,7 @@ const render = dataArr => {
         .tickSize(-innerHeight)
 
     const xAxisG = g.append('g').call(xAxis)
+        .attr('id', 'x-axis')
        .attr('transform', `translate(0, ${innerHeight})`) 
 
         xAxisG.append('text')
@@ -47,14 +47,19 @@ const render = dataArr => {
 
     const yAxisTickFormat = number =>
     format('.1s')(number)
-        .replace('G', 'B') 
+        .replace('G', 'B')
 
-    const yAxis = axisLeft(yScale)
+    const yAxisScale = scaleLinear()
+    .domain([0, max(dataArr,yValue)])
+    .range([innerHeight,0])
+    
+    const yAxis = axisLeft(yAxisScale)
                 .tickPadding(10)
                 .tickFormat(yAxisTickFormat)
 
         
     const yAxisG = g.append('g').call(yAxis)
+                    .attr('id', 'y-axis')
                     .attr('transform', `translate(0, 0)`)
                       
         yAxisG.append('text')
@@ -65,20 +70,28 @@ const render = dataArr => {
         .attr('text-anchor', 'middle')
         .attr('fill', 'black')
         .text(yAxisLabel)
+
+
     g.selectAll('rect')
         .data(dataArr)
         .enter()
         .append('rect')
         .attr('x', d => xScale(xValue(d)))
-        .attr('y', innerHeight - margin.top- (d => yScale(yValue(d))))
+        .attr('y', d => innerHeight - yScale(yValue(d)) )
         .attr('width', width/dataArr.length)
         .attr('height',  d => yScale(yValue(d)))
-        
+        .attr('class', 'bar')
+        .attr('data-date', xValue)
+        .attr('data-gdp', yValue)
+        .append('title')
+            .attr('id', 'tooltip')
+            .text(d => 'Date : ' + xValue(d).toString().substring(0,15) + ' Value : '+ yValue(d) + ' dollars')
+                
+        //const dateFormat= time.format("%Y-%m-%d")
 
-
-          
-        svg.append('text')
-                .attr('class', 'title')
+    console.log(dataArr)
+    svg.append('text')
+                .attr('id', 'title')
                 .attr('x', innerWidth /2)
                 .attr('y', 75)
                 .text(title);

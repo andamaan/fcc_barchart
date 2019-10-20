@@ -1,7 +1,8 @@
 import { select, json, scaleLinear, scaleTime, axisLeft, axisBottom, format, extent, max, timeFormat, event } from 'd3'
 
-const svg = select('svg')
-const div = select('div').style("opacity", 0)
+const container = select('#container')
+const svg = container.select('svg')
+const div = container.select('div').style("opacity", 0)
 
 const width = +svg.attr('width')
 const height = +svg.attr('height')

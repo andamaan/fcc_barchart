@@ -1,18 +1,24 @@
 import { select, json, scaleLinear, scaleTime, axisLeft, axisBottom, format, extent, max, timeFormat, event } from 'd3'
 
+const width = document.body.clientWidth
+const height = document.body.clientHeight - 200
+
+console.log(height)
 const container = select('#container')
+    .attr('width', width)
+    .attr('height', height)
 const svg = container.select('svg')
+    .attr('width', width)
+    .attr('height', height)
 const div = container.select('div').style("opacity", 0)
 
-const width = +svg.attr('width')
-const height = +svg.attr('height')
 
 const render = dataArr => {
     const xValue = d => d[0]
     const xAxisLabel = 'Year'
     const yValue = d => d[1]
     const yAxisLabel = 'Value (in billions)'
-    const margin = {top: 40, right:20, bottom: 75, left: 100}
+    const margin = {top: 40, right:50, bottom: 75, left: 100}
     const innerWidth = width - margin.left - margin.right
     const innerHeight = height - margin.top - margin.bottom
 

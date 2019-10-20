@@ -1,9 +1,8 @@
-import { select, json, scaleLinear, scaleTime, axisLeft, axisBottom, format, extent, max, timeFormat, event } from 'd3'
+import { select, json, scaleLinear, scaleTime, axisLeft, axisBottom, format, extent, max, timeFormat } from 'd3'
 
 const width = document.body.clientWidth
 const height = document.body.clientHeight - 200
 
-console.log(height)
 const container = select('#container')
     .attr('width', width)
     .attr('height', height)
@@ -14,6 +13,7 @@ const div = container.select('div').style("opacity", 0)
 
 
 const render = dataArr => {
+
     const xValue = d => d[0]
     const xAxisLabel = 'Year'
     const yValue = d => d[1]
@@ -33,10 +33,8 @@ const render = dataArr => {
 
     const g = svg.append('g')
         .attr('transform', `translate(${margin.left}, ${margin.top})`)
-   
 
     const xAxis = axisBottom(xScale)
-        .ticks(10)
         .tickPadding(10)
 
     const xAxisG = g.append('g').call(xAxis)
@@ -60,6 +58,7 @@ const render = dataArr => {
     const yAxis = axisLeft(yAxisScale)
                 .tickPadding(10)
                 .tickFormat(yAxisTickFormat)
+
 
         
     const yAxisG = g.append('g').call(yAxis)
@@ -86,9 +85,6 @@ const render = dataArr => {
         .attr('class', 'bar')
         .attr('data-date', xValue)
         .attr('data-gdp', yValue)
-        /*.append('title')
-            .attr('id', 'tooltip')
-            .html(d => 'Date : ' + timeFormat("%Y-%m")(xValue(d)) + '<br/>' +' Value : '+ yValue(d) + ' billions of dollars')*/
         .on("mouseover", function(d) {
             div.attr('data-date', xValue(d))
             div.attr('data-value', yValue(d))
@@ -106,7 +102,6 @@ json('https://raw.githubusercontent.com/freeCodeCamp/ProjectReferenceData/master
       const dataArr = data.data
         dataArr.forEach((d) => {
             d[0] = new Date(d[0]);
-
             d[1] = +d[1];  
     });
     render(dataArr);

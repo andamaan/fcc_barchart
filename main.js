@@ -1,17 +1,17 @@
-import { select, json, scaleLinear, scaleTime, axisLeft, axisBottom, format, extent, max, timeFormat } from 'd3'
+import { select, json, scaleLinear, scaleTime, axisLeft, axisBottom, format, extent, max, timeFormat, event } from 'd3'
 
 const svg = select('svg')
+const div = select('div').style("opacity", 0)
 
 const width = +svg.attr('width')
 const height = +svg.attr('height')
 
 const render = dataArr => {
-    const title= "Gross Domestic Product (USA)"
     const xValue = d => d[0]
     const xAxisLabel = 'Year'
     const yValue = d => d[1]
     const yAxisLabel = 'Value (in billions)'
-    const margin = {top: 100, right:20, bottom: 75, left: 100}
+    const margin = {top: 40, right:20, bottom: 75, left: 100}
     const innerWidth = width - margin.left - margin.right
     const innerHeight = height - margin.top - margin.bottom
 
@@ -79,17 +79,19 @@ const render = dataArr => {
         .attr('class', 'bar')
         .attr('data-date', xValue)
         .attr('data-gdp', yValue)
-        .append('title')
+        /*.append('title')
             .attr('id', 'tooltip')
-           // .html(d => 'Date : ' + xValue(d).toString().substring(0,15) + '<br/>' +' Value : '+ yValue(d) + '$')
-            .html(d => 'Date : ' + timeFormat("%Y-%m")(xValue(d)) + '<br/>' +' Value : '+ yValue(d) + ' billions of dollars')
+            .html(d => 'Date : ' + timeFormat("%Y-%m")(xValue(d)) + '<br/>' +' Value : '+ yValue(d) + ' billions of dollars')*/
+        .on("mouseover", function(d) {
+            div.attr('data-date', xValue(d))
+            div.attr('data-value', yValue(d))
+            .html('Date : ' + timeFormat("%Y-%m")(xValue(d)) + '<br/>' +' Value : '+ yValue(d) + ' billions of dollars')
+                .style("opacity", 1)
+        })
+        .on("mouseout", function(d) {
+            div.style("opacity", 0);
+            });
 
-
-    svg.append('text')
-                .attr('id', 'title')
-                .attr('x', innerWidth /2 - 150)
-                .attr('y', 75)
-                .text(title);
 }
 
 json('https://raw.githubusercontent.com/freeCodeCamp/ProjectReferenceData/master/GDP-data.json')

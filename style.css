@@ -62,10 +62,10 @@ rect:hover{
 
 #tooltip {
     position: absolute;
-    left: 250px;
+    left: 200px;
     top: 100px;
     text-align: left;
-    font-size: 2rem;
+    font-size: 1.5rem;
     color: #67e1ff;
     pointer-events: none;
   }
